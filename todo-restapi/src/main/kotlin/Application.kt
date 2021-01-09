@@ -1,13 +1,13 @@
 package no.sonhal
 
+import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
 import io.ktor.response.*
-import io.ktor.request.*
 import io.ktor.routing.*
 import io.ktor.http.*
-import io.ktor.content.*
 import io.ktor.features.*
-import io.ktor.http.content.*
+import io.ktor.jackson.*
+
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
@@ -23,6 +23,11 @@ fun Application.module(testing: Boolean = false) {
         this.exception<Throwable> { e ->
             call.respondText(e.localizedMessage, ContentType.Text.Plain)
             throw e
+        }
+    }
+    install(ContentNegotiation) {
+        jackson {
+            enable(SerializationFeature.INDENT_OUTPUT)
         }
     }
 }

@@ -49,6 +49,12 @@ allprojects {
     }
 }
 
-project(":todo-restapi"){
+project(":todo-shared"){
 
+}
+
+project(":todo-restapi"){
+    dependencies {
+        implementation(project(":todo-shared"))
+    }
 }
