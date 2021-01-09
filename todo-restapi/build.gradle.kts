@@ -1,13 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.Coroutines
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
 
 plugins {
     application
-    kotlin("jvm") version "1.4.10"
 }
 
 group = "no.sonhal"
@@ -15,12 +11,6 @@ version = "0.0.1"
 
 application {
     mainClassName = "io.ktor.server.cio.EngineMain"
-}
-
-repositories {
-    mavenLocal()
-    jcenter()
-    maven { url = uri("https://kotlin.bintray.com/ktor") }
 }
 
 dependencies {
