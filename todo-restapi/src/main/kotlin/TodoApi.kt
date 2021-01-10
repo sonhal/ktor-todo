@@ -11,6 +11,13 @@ import java.time.LocalDate
 
 fun Routing.todoApi() {
     route("/api") {
+
+        accept(todoContentV1) {
+            get("/todos") {
+                call.respond(todos)
+            }
+        }
+
         get("/todos") {
             call.respond(todos)
         }
