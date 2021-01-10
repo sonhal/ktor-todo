@@ -53,6 +53,24 @@ fun Routing.todoApi() {
 
             call.respond(HttpStatusCode.NoContent)
         }
+
+        delete {
+            val id = call.parameters["id"]
+            if (id == null) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@delete
+            }
+
+            val foundItem = todos.getOrNull(id.toInt())
+            if (foundItem == null) {
+                call.respond(HttpStatusCode.NotFound)
+                return@delete
+            }
+
+            todos = todos.filter { it.id != id.toInt() }
+            call.respond(HttpStatusCode.NoContent)
+
+        }
     }
 }
 
