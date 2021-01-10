@@ -4,6 +4,7 @@ import TodoItem
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.http.ContentType.Text.Plain
+import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import java.time.LocalDate
@@ -23,12 +24,40 @@ fun Routing.todoApi() {
             }
         }
         post("/todos") {
-            call.respond(HttpStatusCode.MethodNotAllowed)
+            val todo = call.receive<TodoItem>()
+            val newTodo =
+                TodoItem(todos.size + 1, todo.title, todo.details, todo.assignedTo, todo.dueDate, todo.importance)
+            todos = todos + newTodo
+
+            call.respond(HttpStatusCode.Created, todos)
+        }
+
+        put("/todos/{id}") {
+            val id = call.parameters["id"]
+            if (id == null) {
+                call.respond(HttpStatusCode.BadRequest)
+                return@put
+            }
+
+            val foundItem = todos.getOrNull(id.toInt())
+
+            if(foundItem == null){
+                call.respond(HttpStatusCode.NotFound)
+                return@put
+            }
+
+            val todo = call.receive<TodoItem>()
+
+            todos = todos.filter { it.id == todo.id }
+            todos = todos + todo
+
+            call.respond(HttpStatusCode.NoContent)
         }
     }
 }
 
 val todo1 = TodoItem(
+    1,
     "Add RestAPI Data access",
     "Add database support",
     "Me",
@@ -37,6 +66,7 @@ val todo1 = TodoItem(
 )
 
 val todo2 = TodoItem(
+    2,
     "Add RestAPI Data Service",
     "Add a service to get the data",
     "Me",

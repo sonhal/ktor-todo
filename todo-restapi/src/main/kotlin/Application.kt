@@ -11,7 +11,7 @@ import io.ktor.jackson.*
 
 fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
 
-val todos = listOf(todo1, todo2)
+var todos = listOf(todo1, todo2)
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
