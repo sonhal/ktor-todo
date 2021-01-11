@@ -39,7 +39,11 @@ allprojects {
         implementation("ch.qos.logback:logback-classic:$logback_version")
         implementation("io.ktor:ktor-server-core:$ktor_version")
         implementation("io.ktor:ktor-server-host-common:$ktor_version")
-        testImplementation("io.ktor:ktor-server-tests:$ktor_version")
+
+        testImplementation("org.amshove.kluent:kluent:$kluent_version")
+        testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spek_version")
+        testImplementation("org.spekframework.spek2:spek-runner-junit5:$spek_version")
+
     }
 
     tasks.withType<Test> {
@@ -50,6 +54,7 @@ allprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
+
 }
 
 
