@@ -31,6 +31,7 @@ allprojects {
         jcenter()
         mavenLocal()
         maven { url = uri("https://kotlin.bintray.com/ktor") }
+        maven { url = uri("https://dl.bintray.com/spekframework/spek-dev") }
     }
 
     dependencies {
@@ -40,15 +41,20 @@ allprojects {
         implementation("io.ktor:ktor-server-core:$ktor_version")
         implementation("io.ktor:ktor-server-host-common:$ktor_version")
 
+        implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310", "2.12.0")
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version")
+
         testImplementation("org.amshove.kluent:kluent:$kluent_version")
         testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spek_version")
-        testImplementation("org.spekframework.spek2:spek-runner-junit5:$spek_version")
-
+        testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spek_version")
     }
 
     tasks.withType<Test> {
         useJUnitPlatform {
             includeEngines("spek2")
+        }
+        testLogging {
+            events("passed", "skipped", "failed")
         }
     }
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {

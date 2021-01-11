@@ -18,7 +18,7 @@ var todos = listOf(todo1, todo2)
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
     install(Routing) {
-        trace { application.log.trace(it.buildText()) }
+        if (!testing) trace { application.log.trace(it.buildText()) }
         todoApi()
     }
     install(StatusPages) {
