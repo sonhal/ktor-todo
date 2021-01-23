@@ -1,4 +1,4 @@
-rootProject.name = "todo"
+rootProject.name = "todo-web"
 
 include("todo-restapi")
 include("todo-shared")

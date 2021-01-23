@@ -1,10 +1,12 @@
+package no.sonhal.todo.shared
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer
 import java.time.LocalDate
 
-data class TodoItem (
+public data class TodoItem (
     val id: Int,
     val title: String,
     val details: String,
@@ -15,6 +17,6 @@ data class TodoItem (
     val importance: Importance
 )
 
-enum class Importance {
+public enum class Importance {
     LOW, MEDIUM, HIGH
 }

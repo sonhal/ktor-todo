@@ -1,9 +1,9 @@
-package no.sonhal
+package no.sonhal.todo.todo
 
 import io.ktor.http.*
 import kotlin.test.*
 import io.ktor.server.testing.*
-
+import no.sonhal.todo.module
 
 class ApplicationTest {
 

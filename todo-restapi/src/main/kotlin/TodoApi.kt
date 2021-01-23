@@ -1,12 +1,12 @@
-package no.sonhal
+package no.sonhal.todo
 
-import TodoItem
 import io.ktor.application.*
 import io.ktor.http.*
-import io.ktor.http.ContentType.Text.Plain
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import no.sonhal.todo.shared.Importance
+import no.sonhal.todo.shared.TodoItem
 import java.time.LocalDate
 
 fun Routing.todoApi() {

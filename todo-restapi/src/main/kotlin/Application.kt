@@ -1,4 +1,4 @@
-package no.sonhal
+package no.sonhal.todo
 
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
