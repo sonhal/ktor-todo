@@ -1,8 +1,11 @@
 package no.sonhal.todo.web
 
+import com.github.mustachejava.DefaultMustacheFactory
 import io.ktor.application.*
+import io.ktor.content.*
 import io.ktor.features.*
 import io.ktor.http.*
+import io.ktor.mustache.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
@@ -10,6 +13,7 @@ import io.ktor.server.netty.*
 
 
 fun main(args: Array<String>) {
+    println("Running webpage server")
     embeddedServer(Netty, commandLineEnvironment(args)).start()
 }
 
@@ -36,12 +40,20 @@ fun Application.module() {
                 }
             }
         }
+        status(HttpStatusCode.NotFound) {
+            call.respond(TextContent("${it.value} ${it.description}", ContentType.Text.Plain.withCharset(Charsets.UTF_8), it))
+        }
+    }
+
+    install(Mustache) {
+        mustacheFactory = DefaultMustacheFactory("templates")
     }
 
     install(Routing) {
         if (isDev) {
             trace { application.log.trace(it.buildText()) }
         }
+        todos()
         staticResources()
     }
 }

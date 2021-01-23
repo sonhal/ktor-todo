@@ -73,3 +73,9 @@ project(":todo-restapi"){
         implementation(project(":todo-shared"))
     }
 }
+
+project(":todo-web"){
+    dependencies {
+        implementation(project(":todo-shared"))
+    }
+}
