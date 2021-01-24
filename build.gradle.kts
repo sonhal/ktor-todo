@@ -68,9 +68,18 @@ project(":todo-shared"){
 
 }
 
+project(":dataaccess-service"){
+    dependencies {
+        implementation(project(":todo-shared"))
+        implementation(project(":repository"))
+    }
+}
+
 project(":todo-restapi"){
     dependencies {
         implementation(project(":todo-shared"))
+        implementation(project(":dataaccess-service"))
+        implementation(project(":repository"))
     }
 }
 
