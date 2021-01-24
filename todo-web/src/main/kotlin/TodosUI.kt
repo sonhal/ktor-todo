@@ -4,28 +4,17 @@ import io.ktor.application.*
 import io.ktor.mustache.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import no.sonhal.todo.service.TodoService
 import no.sonhal.todo.shared.Importance
 import no.sonhal.todo.shared.TodoItem
 import no.sonhal.todo.web.viewmodels.TodoVM
 import java.time.LocalDate
 
 
-val todo = TodoItem(
-    1,
-    "Add database processing",
-    "Add backed support to this code",
-    "Kevin",
-    LocalDate.of(2021, 1, 18),
-    Importance.HIGH
-)
-
-val todos = listOf(todo, todo)
-
-
-fun Routing.todos() {
+fun Routing.todos(todoService: TodoService) {
     get("/todos") {
         call.respond(
-            MustacheContent("todos.hbs", mapOf("todos" to TodoVM(todos)))
+            MustacheContent("todos.hbs", mapOf("todos" to TodoVM(todoService.getAll())))
         )
     }
 }

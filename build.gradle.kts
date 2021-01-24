@@ -47,6 +47,7 @@ allprojects {
         testImplementation("org.amshove.kluent:kluent:$kluent_version")
         testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spek_version")
         testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spek_version")
+
     }
 
     tasks.withType<Test> {
@@ -84,6 +85,12 @@ project(":todo-restapi"){
 }
 
 project(":todo-web"){
+    dependencies {
+        implementation(project(":todo-shared"))
+        implementation(project(":todo-service"))
+    }
+}
+project(":todo-service"){
     dependencies {
         implementation(project(":todo-shared"))
     }

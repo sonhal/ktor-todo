@@ -10,15 +10,32 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import no.sonhal.todo.service.TodoService
+import no.sonhal.todo.service.TodoServiceImpl
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
+import org.koin.ktor.ext.inject
 
+
+val todoWebModule = module {
+    single<TodoService> { TodoServiceImpl() }
+}
 
 fun main(args: Array<String>) {
     println("Running webpage server")
+    startKoin {
+        modules(todoWebModule)
+    }
     embeddedServer(Netty, commandLineEnvironment(args)).start()
 }
 
 @Suppress("unused")
 fun Application.module() {
+    val todoService: TodoService by inject()
+    moduleWithDependencies(todoService)
+}
+
+fun Application.moduleWithDependencies(service: TodoService) {
     install(StatusPages) {
         when {
             isDev -> {
@@ -53,7 +70,7 @@ fun Application.module() {
         if (isDev) {
             trace { application.log.trace(it.buildText()) }
         }
-        todos()
+        todos(service)
         staticResources()
     }
 }

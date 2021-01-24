@@ -9,17 +9,33 @@ import io.ktor.features.*
 import io.ktor.jackson.*
 import no.sonhal.dataaccess.shared.TodoService
 import no.sonhal.dataaccess.shared.TodoServiceImpl
+import no.sonhal.todolist.TodoListRepository
 import no.sonhal.todolist.TodoListRepositorySql
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
+import org.koin.ktor.ext.inject
 
 
-fun main(args: Array<String>): Unit = io.ktor.server.cio.EngineMain.main(args)
+val todoAppModule = module {
+    single<TodoService> { TodoServiceImpl(get())}
+    single<TodoListRepository> { TodoListRepositorySql() }
+}
+
+
+fun main(args: Array<String>): Unit {
+    startKoin {
+        modules(todoAppModule)
+    }
+    io.ktor.server.cio.EngineMain.main(args)
+}
 
 val todoContentV1 = ContentType("application", "vnd.todoapi.v1+json")
 
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
-    moduleWithDependencies(TodoServiceImpl(TodoListRepositorySql()))
+   val todoService: TodoService by inject()
+    moduleWithDependencies(todoService)
 }
 
 fun Application.moduleWithDependencies(service: TodoService) {
