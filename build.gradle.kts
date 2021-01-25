@@ -44,6 +44,9 @@ allprojects {
         implementation("com.fasterxml.jackson.datatype", "jackson-datatype-jsr310", "2.12.0")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version")
 
+        // .env file support lib
+        implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
+
         testImplementation("org.amshove.kluent:kluent:$kluent_version")
         testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spek_version")
         testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spek_version")

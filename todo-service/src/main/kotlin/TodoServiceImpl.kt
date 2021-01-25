@@ -23,6 +23,10 @@ class TodoServiceImpl : TodoService {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun loadUserData(userId: String): UserData {
+        return UserData(backgroundColor = "red")
+    }
+
     override fun create(todo: TodoItem): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

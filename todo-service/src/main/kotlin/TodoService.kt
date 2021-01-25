@@ -8,4 +8,5 @@ interface TodoService {
     fun delete(id: Int): Boolean
     fun create(todo: TodoItem): Boolean
     fun update(id: Int, todo: TodoItem): Boolean
+    fun loadUserData(userId: String): UserData
 }
