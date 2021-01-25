@@ -38,6 +38,7 @@ val loginProvider = OAuthServerSettings.OAuth2ServerSettings(
     clientId = dotenv["clientId"],
     clientSecret = dotenv["clientSecret"],
     defaultScopes = listOf("todoAPI.read", "todoAPI.write"),
+    authorizeUrlInterceptor = { this.parameters.append("audience", "http://0.0.0.0:8090/api/todos")}
 )
 
 fun main(args: Array<String>) {

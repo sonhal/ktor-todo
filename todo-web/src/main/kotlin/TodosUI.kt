@@ -19,8 +19,7 @@ fun Routing.todos(todoService: TodoService) {
 
         get("/todos") {
             val subject = getSubject()
-            val log = java.util.logging.Logger.getLogger("Router")
-            log.info("subject of call: $subject")
+
             call.respond(
                 MustacheContent("todos.hbs", mapOf("todos" to TodoVM(todoService.getAll(), todoService.loadUserData(subject).backgroundColor)))
             )
@@ -31,7 +30,10 @@ fun Routing.todos(todoService: TodoService) {
 
 private fun PipelineContext<Unit, ApplicationCall>.getSubject(): String {
     val principal = call.authentication.principal<OAuthAccessTokenResponse.OAuth2>()
-    println("token type: " + principal?.tokenType)
     val jwt = JWT.decode(principal?.accessToken)
+    val log = java.util.logging.Logger.getLogger("Router")
+    log.info("header: ${jwt.header}")
+    log.info("body: ${jwt.payload}")
+    log.info("token: ${jwt.token}")
     return jwt.subject
 }
