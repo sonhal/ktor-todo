@@ -22,5 +22,7 @@ dependencies {
     implementation("io.ktor:ktor-auth:$ktor_version")
     implementation("io.ktor:ktor-auth-jwt:$ktor_version")
     implementation("com.auth0:java-jwt:3.12.1")
+    implementation("io.ktor:ktor-server-sessions:$ktor_version")
+
 }
 

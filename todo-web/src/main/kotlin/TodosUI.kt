@@ -6,8 +6,10 @@ import io.ktor.auth.*
 import io.ktor.mustache.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import io.ktor.sessions.*
 import io.ktor.util.pipeline.*
 import no.sonhal.todo.service.TodoService
+import no.sonhal.todo.service.UserData
 import no.sonhal.todo.shared.Importance
 import no.sonhal.todo.shared.TodoItem
 import no.sonhal.todo.web.viewmodels.TodoVM
@@ -18,10 +20,23 @@ fun Routing.todos(todoService: TodoService) {
     authenticate(oauthAuthentication) {
 
         get("/todos") {
-            val subject = getSubject()
+
+
+            val userData: UserData
+
+            when(val userSession = call.sessions.get<UserSession>()) {
+                null -> {
+                    val subject = getSubject()
+                    userData = todoService.loadUserData(subject)
+                    call.sessions.set(UserSession(id = subject, username = "John", backgroundColor = userData.backgroundColor))
+                }
+                else -> {
+                    userData = UserData(backgroundColor = userSession.backgroundColor)
+                }
+            }
 
             call.respond(
-                MustacheContent("todos.hbs", mapOf("todos" to TodoVM(todoService.getAll(), todoService.loadUserData(subject).backgroundColor)))
+                MustacheContent("todos.hbs", mapOf("todos" to TodoVM(todoService.getAll(), userData.backgroundColor)))
             )
         }
     }

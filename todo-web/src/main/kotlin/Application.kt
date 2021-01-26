@@ -19,6 +19,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import org.koin.ktor.ext.inject
 import io.github.cdimascio.dotenv.dotenv
+import io.ktor.sessions.*
 
 
 val todoWebModule = module {
@@ -93,8 +94,14 @@ fun Application.moduleWithDependencies(service: TodoService, httpClient: HttpCli
         mustacheFactory = DefaultMustacheFactory("templates")
     }
 
+    install(Sessions) {
+        cookie<UserSession>("KTOR_SESSION", storage = SessionStorageMemory())
+    }
+
     install(Authentication) {
         oauth(oauthAuthentication) {
+            skipWhen { call -> call.sessions.get<UserSession>() != null }
+
             providerLookup = {
                 loginProvider
             }
